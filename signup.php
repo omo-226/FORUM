@@ -1,4 +1,5 @@
 <?php
+//require 'actions/users/securityAction.php'; 
 require 'actions/users/signupAction.php'; 
 //require 'actions/users/securityAction.php'; 
 ?>

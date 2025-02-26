@@ -1,7 +1,7 @@
 <?php
 try {
-    session_start();
-    $bdd = new PDO("mysql:host=localhost;dbname=forum;charset=utf8", "root", "");
+    
+    $bdd = new PDO("mysql:host=mysql-bigforum.alwaysdata.net;dbname=bigforum_bd;charset=utf8", "bigforum", "Bypass2022");
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch (PDOException $e) {

@@ -1,31 +1,27 @@
-<?php require 'actions/database.php';
+<?php 
+require 'actions/database.php' ;
+// validation du formulaire
+if (isset($_POST['validate'])) {
 
-if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $new_question_title = htmlspecialchars($_POST['title']);
+    $new_question_description = htmlspecialchars($_POST['description']);
+    $new_question_content = htmlspecialchars($_POST['content']);
 
-    $idOfQuestion = $_GET['id'];
+    // verifier si tous les champs sont remplisc
+    if(!empty($new_question_title) && !empty($new_question_description) && !empty($new_question_content)){
 
-    $checkIfQuestionExists = $bdd->prepare('SELECT * FROM questions WHERE id = ?');
-    $checkIfQuestionExists->execute(array($idOfQuestion));
+        //modifier les informations de la question qui possede l'id rentrer en parametre
+        $editQuestionOnWebsite = $bdd->prepare('UPDATE questions SET titre = ?, description = ?, contenu = ? WHERE id = ?');
+        $editQuestionOnWebsite->execute(array( $new_question_title, $new_question_description, $new_question_content, $idOfQuestion) );
 
-    // Si au moins une question a ete trouver ?
-    if ($checkIfQuestionExists->rowCount() > 0) {
-
-        $questionInfos = $checkIfQuestionExists->fetch();
-        if($questionInfos['id_auteur'] == $_SESSION['id']) {
-            $question_title = $questionInfos['description'];
-            $question_content = $questionInfos['content'];
-            $question_date = $questionInfos['date_publication'];
-        }
-        else{
-            $erreurMsg = 'Vous n"etes pas l"auteur de cette question';
-        }
+        //redirection vers la page d'affichage
+        header('Location: my-questions.php');
     }
     else{
-        $erreurMsg = 'aucune question n"a ete trouver';
+        $erreurMsg = 'Veillez completez les champs....';
     }
-}
-else{
-    $erreurMsg = 'aucune question n"a ete trouver';
-}
 
-?>
+
+    
+
+}
